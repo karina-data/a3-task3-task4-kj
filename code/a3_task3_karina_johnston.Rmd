@@ -2,14 +2,51 @@
 title: "Assignment 3 Task 3 - Santa Barbara LTER Urchins"
 author: "Karina Johnston"
 date: "10/27/2021"
-output: html_document
+output: 
+  html_document: 
+    theme: cerulean
 ---
+
+This assignment will analyze sea urchin data from the Santa Barbara Coastal Long Term Ecological Research program. Data for both red (*Mesocentrotus franciscanus*) and purple (*Strongylocentrotus purpuratus*) urchins observed at five sites along the Santa Barbara coast are analyzed. 
+
+Citation: Reed, D. 2020. SBC LTER: Reef: Long-term experiment: Kelp removal: Urchin size frequency distribution ver 20. Environmental Data Initiative. Accessed 2010-10-27. (https://doi.org/10.6073/pasta/5a1e9ef03aa47bd2225c0bb98a02a63b)
 
 ```{r setup, include = TRUE, warning = FALSE, message = FALSE}
 knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 
-# Load the packages into the setup code chunk
+# Attach the packages into the setup code chunk
+library(tidyverse)
+library(kableExtra)
+library(here)
+library(janitor)
+```
 
+### Read in the data
+
+This step reads in the urchin data .csv file from within the project folder and creates a new dataframe `urchin_data`, followed by a step to change the column headers to lower snake case using the function `clean_names()` found in the `janitor` package.
+
+```{r}
+urchin_data <- read_csv(here("data", "urchins.csv")) %>% 
+  clean_names()
+```
+
+### Section 1: Size Comparisons
+
+In this section, the data will be visualized first by comparing the distributions of sizes between purple and red urchins with a finalized, faceted histogram using the `ggplot()` function with cleaned up aesthetics. 
+
+```{r, fig.cap = "Figure 1. Size frequency data for Santa Barbara coastal red and purple urchins (data: SBC LTER)."}
+ggplot(data = urchin_data, aes(x = size)) +
+  geom_histogram(bins = 15, color = 4, fill = 4) +
+  facet_wrap(~ common_name) +
+  labs(x = "Size (cm)", y = "Number of urchins", title = "Size Frequency Histogram for Santa Barbara Urchins (Johnston)") +
+  theme_bw() +
+  theme(plot.title = element_text(hjust = 0.5),
+        panel.grid = element_blank())
+```
+
+Next, a finalized summary table is created that contains the following statistics for purple and red urchins (mean, standard deviation or SD, and sample size).
+
+```{r}
 
 ```
 
