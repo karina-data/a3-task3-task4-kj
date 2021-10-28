@@ -47,9 +47,60 @@ purple_naples_2010 <- urchin_data %>%
 # filters only purple urchins from 2010 and Naples Reef
   filter(common_name == "Purple Urchin", 
          site == "NAPL",
-         year == "2010") %>% 
+         year == "2010")
   
 ```
 
+### Section 2: Exploratory visualization
+
+Next, an exploratory histogram and QQ-plot for the size distribution of purple urchins at Naples Reef in 2010 are created to assess normality (faceted graphs).
+
+```{r}
+# creates a histogram with fewer bins to better visualize the normality of the data
+ggplot(data = purple_naples_2010, aes(x = size)) +
+  geom_histogram(bins = 11) +
+  facet_wrap(~ treatment) +
+  theme_classic()
+
+# creates a quantile-quantile plot to visualize normality
+ggplot(data = purple_naples_2010, aes(sample = size)) +
+  geom_qq() +
+  facet_wrap(~ treatment) +
+  theme_classic()
+
+```
+
+Based on the visualizations in the histogram and Q-Q plot, the data appear fairly normally distributed, with potentially a couple of outliers (especially on the positive tail of the annual treatment). Both seem largely unimodal, though when you increase the numbers of bins, there are more than one peak. However, that could be a result of the sampling methodology as binned data (measured to 0.5 cm accuracy). The Q-Q plot is roughly in a line, though also exhibits trends from the binned data.
+
+### Section 3: Finalized basic summary table
+
+This section creates a finalized basic summary table (with table caption above) of descriptive statistics for both groups, including mean, SD, median, and sample size.
+
+```{r}
+purple_naples_summary_stats <- purple_naples_2010 %>% 
+  
+# these functions group by species and produce the summary statistics (rounded)
+  group_by(treatment) %>% 
+  summarize(mean_size_cm = round(mean(size), 2),
+            sd_size = round(sd(size), 2),
+            median_size_cm = round(median(size), 1),
+            sample_size = n())
+
+# these functions update the table to be cleaner, easier to read, and visually appealing
+kable(purple_naples_summary_stats,
+      col.names = c("Treatment", # changes the column names
+                    "Mean Diameter (cm)",
+                    "Standard Deviation (cm)",
+                    "Median Diameter (cm)",
+                    "Sample Size"),
+      align = "lcccc", # changes the alignment of the columns
+    
+# adds a caption
+      caption = "Table 1. Summary statistics for diameter (cm) size distributions of purple urchins on Naples Reef in 2010 based on experimental treatment (Johnston).") %>% 
+
+# better lines within the table
+kable_classic(full_width = F)
+```
 
 
+#### End of Assignment 3 Task 4
