@@ -1,0 +1,15 @@
+---
+title: "Assignment 3 Task 3 - Santa Barbara LTER Urchins"
+author: "Karina Johnston"
+date: "10/27/2021"
+output: html_document
+---
+
+```{r setup, include = TRUE, warning = FALSE, message = FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+
+# Load the packages into the setup code chunk
+
+
+```
+
