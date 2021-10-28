@@ -44,9 +44,28 @@ ggplot(data = urchin_data, aes(x = size)) +
         panel.grid = element_blank())
 ```
 
-Next, a finalized summary table is created that contains the following statistics for purple and red urchins (mean, standard deviation or SD, and sample size).
+Next, a finalized summary table is created that contains the following statistics for purple and red urchins (mean, standard deviation or SD, and sample size). This code contains lots of aesthetic alterations for cleaner visiblity and labeling, including updated column header names, adding comma separators for thousands, adding a caption, and rounding the digits.
 
 ```{r}
+urchin_size_stats <- urchin_data %>% 
+  group_by(common_name) %>% 
+  summarize(mean_size_cm = round(mean(size), 2),
+            median_size_cm = round(median(size), 1),
+            sd_size = round(sd(size), 2),
+            sample_size = n())
 
+kable(urchin_size_stats,
+      col.names = c("Common Name", 
+                    "Mean Size (cm)", 
+                    "Median Size (cm)",
+                    "Standard Deviation (cm)",
+                    "Sample Size"),
+      align = "lcccc",
+      format.args = list(big.mark = ","),
+#     col.names = gsub("_", " ", names(urchin_size_stats)),
+      caption = "Table 1. Summary statistics for red and purple urchins on the Santa Barbara coast (Johnston).") %>% 
+  kable_styling(latex_options = "striped")
 ```
+
+
 
