@@ -1,33 +1,55 @@
 ---
 title: 'Assignment 3 Task 4: Naples Reef (2010) purple urchins'
 author: "Karina Johnston"
-date: "10/28/2021"
+date: "10/27/2021"
 output: 
   html_document: 
     toc: yes
     theme: cerulean
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+This assignment will analyze sea urchin data from the Santa Barbara Coastal Long Term Ecological Research program. Data for purple (*Strongylocentrotus purpuratus*) urchins observed at Naples Reef along the Santa Barbara coast are analyzed. Exploratory figures and a finalized summary table are produced, exploring data visualization techniques and summary statistics. 
+
+Citation: Reed, D. 2020. SBC LTER: Reef: Long-term experiment: Kelp removal: Urchin size frequency distribution ver 20. Environmental Data Initiative. Accessed 2010-10-27. (https://doi.org/10.6073/pasta/5a1e9ef03aa47bd2225c0bb98a02a63b)
+
+```{r setup, include = TRUE, warning = FALSE, message = FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+
+# Attach the following packages into the setup code chunk and change the settings for reporting warnings and messages (above)
+library(tidyverse)
+library(kableExtra)
+library(here)
+library(janitor)
+library(lubridate)
 ```
 
-## R Markdown
+### Read in the data
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+This step reads in the urchin data .csv file from within the project folder and creates a new dataframe `urchin_data`, followed by a step to change the column headers to lower snake case using the function `clean_names()` found in the `janitor` package.
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-```{r cars}
-summary(cars)
+```{r}
+urchin_data <- read_csv(here("data", "urchins.csv")) %>% 
+  clean_names()
 ```
 
-## Including Plots
+### Section 1: Data wrangling
 
-You can also embed plots, for example:
+First, the urchins data are filtered to only include Naples Reef data for purple urchins in 2010 and saved to a new dataframe `purple_naples_2010`.
 
-```{r pressure, echo=FALSE}
-plot(pressure)
+```{r}
+# creates the new dataframe beginning with urchin_data
+purple_naples_2010 <- urchin_data %>% 
+
+# updates the date column to be Date format and adds a year column 
+  mutate(date = mdy(date)) %>% 
+  mutate(year = year(date)) %>% 
+
+# filters only purple urchins from 2010 and Naples Reef
+  filter(common_name == "Purple Urchin", 
+         site == "NAPL",
+         year == "2010") %>% 
+  
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+
