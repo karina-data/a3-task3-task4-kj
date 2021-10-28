@@ -5,6 +5,7 @@ date: "10/27/2021"
 output: 
   html_document: 
     theme: cerulean
+    toc: yes
 ---
 
 This assignment will analyze sea urchin data from the Santa Barbara Coastal Long Term Ecological Research program. Data for both red (*Mesocentrotus franciscanus*) and purple (*Strongylocentrotus purpuratus*) urchins observed at five sites along the Santa Barbara coast are analyzed. Final Figures and Tables are produced, exploring data visualization techniques and summary statistics. 
