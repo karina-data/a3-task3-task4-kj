@@ -73,13 +73,49 @@ Based on the urchin size data visualizations in Figure 1 and the summary statist
 
 ### Section 2: Purple urchins (by site and year)
 
-In this Section, the purple urchin data will be explored by site and year. 
+In this Section, the purple urchin data will be explored by site and year. In this code chunk, the data are filtered for purple urchins, date is converted to class "Date", and new columns are added.
 
 ```{r}
 purple_urchins <- urchin_data %>% 
   filter(common_name == "Purple Urchin") %>% 
   mutate(date = mdy(date)) %>% 
-  mutate(year = year(date))
+  mutate(year = year(date)) %>% 
+  mutate(site_full = case_when(
+    site == "NAPL" ~ "Naples Reef",
+    site == "AQUE" ~ "Arroyo Quemado Reef",
+    site == "CARP" ~ "Carpinteria Reef",
+    site == "MOHK" ~ "Mohawk Reef",
+    site == "IVEE" ~ "Isla Vista Reef"
+  ))
 
 ```
+
+This code stores a table (`purple_urchin_summary`) containing the total number of purple urchins observed by site and year (not a final formatted table). 
+
+```{r}
+purple_urchin_summary <- purple_urchins %>% 
+  count(site_full, year)
+
+```
+
+#### Visualizing the data
+
+This step visualizes the data through a final graph showing counts of purple urchins recorded at each site over time for the years included in the study. 
+
+```{r, fig.cap = "Figure 2. Purple urchin counts by site in Santa Barbara, 2008-2020 (data: SBC LTER)"}
+ggplot(data = purple_urchin_summary, aes(x = year, y = n)) +
+  geom_line() +
+  labs(x = "Urchin count", y = "Year",
+       title = "Purple urchin count by site over time (Johnston)") +
+  facet_wrap(~ site_full) +
+  theme_bw() +
+  theme(plot.title = element_text(hjust = 0.5),
+        panel.grid.minor = element_blank()
+        )
+```
+
+The purple urchin counts drop consistently across all sites in 2013, with a continuing decline through 2020, though at some sites, this is similar to the initial baseline survey year in 2008. Other factors that would be important to determining actual changes in counts include sample size and effect, number or types of treatments, etc. Since these are reflective of kelp removal data, it may be that there is a confounding factor that is not acknowledged in these data based on the merging of all treatments together.  
+
+Add text below your graph: do you think this graph reflects changes in the purple urchin population? What would you have to take into account to determine whether the changes in counts by year are reflective of actual changes in urchin population? What else could explain the changes in number of purple urchins observed?
+
 
