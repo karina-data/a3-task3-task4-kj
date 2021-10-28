@@ -153,3 +153,4 @@ ggplot(data = purple_urchin_summary, aes(x = year, y = n, fill = site_full)) +
 
 The purple urchin counts drop consistently across all sites in 2013, with a continuing decline through 2020, though at some sites, the 2020 counts are similar to the initial baseline survey year in 2008. The decline may not be reflective of urchin population changes. Other factors that would be important to determining actual changes in population sizes include sample size and effect, number or types of treatments, etc. Since these are reflective of kelp removal data, it may be that there is a confounding factor that is not acknowledged in these data based on the merging of all treatments together. There could also be changes in sampling effort across years that would affect the total counts (e.g., Covid-19 may have reduced survey frequency in 2020).
 
+#### End of Assignment 3 Task 3
