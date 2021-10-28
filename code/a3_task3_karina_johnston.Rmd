@@ -7,7 +7,7 @@ output:
     theme: cerulean
 ---
 
-This assignment will analyze sea urchin data from the Santa Barbara Coastal Long Term Ecological Research program. Data for both red (*Mesocentrotus franciscanus*) and purple (*Strongylocentrotus purpuratus*) urchins observed at five sites along the Santa Barbara coast are analyzed. 
+This assignment will analyze sea urchin data from the Santa Barbara Coastal Long Term Ecological Research program. Data for both red (*Mesocentrotus franciscanus*) and purple (*Strongylocentrotus purpuratus*) urchins observed at five sites along the Santa Barbara coast are analyzed. Final Figures and Tables are produced, exploring data visualization techniques and summary statistics. 
 
 Citation: Reed, D. 2020. SBC LTER: Reef: Long-term experiment: Kelp removal: Urchin size frequency distribution ver 20. Environmental Data Initiative. Accessed 2010-10-27. (https://doi.org/10.6073/pasta/5a1e9ef03aa47bd2225c0bb98a02a63b)
 
@@ -19,6 +19,7 @@ library(tidyverse)
 library(kableExtra)
 library(here)
 library(janitor)
+library(lubridate)
 ```
 
 ### Read in the data
@@ -30,7 +31,7 @@ urchin_data <- read_csv(here("data", "urchins.csv")) %>%
   clean_names()
 ```
 
-### Section 1: Size Comparisons
+### Section 1: Size comparisons (all data)
 
 In this section, the data will be visualized first by comparing the distributions of sizes between purple and red urchins with a finalized, faceted histogram using the `ggplot()` function with cleaned up aesthetics. 
 
@@ -67,5 +68,18 @@ kable(urchin_size_stats,
   kable_styling(latex_options = "striped")
 ```
 
+Based on the urchin size data visualizations in Figure 1 and the summary statistics presented in Table 1, several patterns emerge about the urchin size data. The central tendency and data spread of urchin size by species (mean $\pm$ SD) showed larger red urchins (6.78 $\pm$ 1.89) than purple urchins (4.47 $\pm$ 1.18); the mean of red urchins was 34% larger than purples. Median showed a similar pattern (7.0 and 4.5, respectively). Both sample sizes were quite large (> 27,000 individual urchins). From the histogram visualization (Figure 1), the purple urchins may not be normally distributed, and instead may be exhibiting a positive skew. The red urchins appear more normally distributed.    
 
+
+### Section 2: Purple urchins (by site and year)
+
+In this Section, the purple urchin data will be explored by site and year. 
+
+```{r}
+purple_urchins <- urchin_data %>% 
+  filter(common_name == "Purple Urchin") %>% 
+  mutate(date = mdy(date)) %>% 
+  mutate(year = year(date))
+
+```
 
